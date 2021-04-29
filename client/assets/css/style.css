@@ -1,0 +1,26 @@
+h1 {
+  font-family: 'Bangers', cursive;
+}
+
+body {
+  font-family: 'Indie Flower', cursive;
+}
+
+.tab-pane {
+  font-family: 'Share Tech Mono', monospace;
+}
+
+/* .bg {
+    background-color: rgb(255, 166, 0);
+  } */
+
+.container {
+  padding: 2rem;
+}
+
+.row>.col, .row>[class^=col-], .bg {
+  padding-top: .45rem;
+  padding-bottom: .45rem;
+  background-color: rgba(180, 161, 148, 0.15);
+  border: 1px solid rgba(19, 18, 18, 0.2);
+}
