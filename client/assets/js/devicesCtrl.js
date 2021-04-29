@@ -59,11 +59,15 @@ app.controller('devicesController', async ($scope, $http, devicesAPI, typesAPI) 
 		const newValue = getValueComponentByEvent(event);
 		const device = getDeviceById(getDeviceByTagHTML(event));
 
-		devicesAPI.saveDevice(device.getID(), { value: newValue })
+		const newValues = { value: newValue, code: device.getCode() };
+		devicesAPI.saveDevice(device.getID(), newValues)
 			.then((itemDevice) => {
+				if (!itemDevice.data.id) {
+					throw new Error('Cant execute command');
+				}
+				console.log('Response:', itemDevice.data.id ? itemDevice.data : 'Error');
 				device.value = newValue;
 				console.log('SetValue:', newValue);
-				console.log('Response:', itemDevice);
 			})
 			.catch((error) => {
 				device.value = device.getValue();
