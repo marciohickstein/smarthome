@@ -1,8 +1,17 @@
-const util = require('util');
-const exec = util.promisify(require('child_process').exec);
+const DEFAULT_PIN = 17;
+const DEFAULT_PULSELENGTH = 350;
+const DEFAULT_PROTOCOL = 1;
+
 const router = require('express').Router();
 const { ContextDataSource } = require('../utils/db/strategies/base/contextDataSource');
 const { JSONDataSource } = require('../utils/db/jsonDataSource');
+const rpi433 = require('rpi-433-v3');
+
+const rfEmitter = rpi433.emitter({
+	pin: DEFAULT_PIN,
+	pulseLength: DEFAULT_PULSELENGTH,
+	protocol: DEFAULT_PROTOCOL,
+});
 
 const dataSource = new ContextDataSource(new JSONDataSource());
 dataSource.open('../../data/devices.json');
@@ -24,10 +33,16 @@ router.patch('/:id', async (req, res) => {
 
 	try {
 		if (fieldsToChange.code) {
-			const cmd = `/home/pi/rf-modules/433Utils/RPi_utils/codesend ${fieldsToChange.code}`;
+			try {
+				const result = await rfEmitter.sendCode(fieldsToChange.code);
+				console.log(`Code sent: ${result}`);
+			} catch (error) {
+				console.log(`Code was not sent, reason: ${error}`);
+			}
+			// const cmd = `/home/pi/rf-modules/433Utils/RPi_utils/codesend ${fieldsToChange.code}`;
 
-			console.log(cmd);
-			await exec(cmd);
+			// console.log(cmd);
+			// await exec(cmd);
 			// const { stderr } = await exec(cmd);
 			// console.log('stdout:', stdout);
 			// console.log('stderr:', stderr);
