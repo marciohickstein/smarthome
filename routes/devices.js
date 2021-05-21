@@ -27,12 +27,13 @@ router.patch('/:id', async (req, res) => {
 			const cmd = `/home/pi/rf-modules/433Utils/RPi_utils/codesend ${fieldsToChange.code}`;
 
 			console.log(cmd);
-			const { stderr } = await exec(cmd);
+			await exec(cmd);
+			// const { stderr } = await exec(cmd);
 			// console.log('stdout:', stdout);
 			// console.log('stderr:', stderr);
-			if (!stderr) {
-				throw new Error(stderr);
-			}
+			// if (!stderr) {
+			// 	throw new Error(stderr);
+			// }
 		}
 		deviceChanged = await dataSource.update(id, fieldsToChange);
 	} catch (error) {

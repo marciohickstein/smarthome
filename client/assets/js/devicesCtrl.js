@@ -20,6 +20,11 @@ app.controller('devicesController', async ($scope, $http, devicesAPI, typesAPI) 
 					});
 					$scope.devices = devs;
 					$scope.listDevicesOK = true;
+				})
+				.catch((error) => {
+					$scope.devices = [];
+					console.log('Error:', error);
+					$scope.listDevicesOK = false;
 				});
 		})
 		.catch((error) => {
