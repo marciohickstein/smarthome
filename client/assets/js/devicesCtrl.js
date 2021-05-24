@@ -61,9 +61,11 @@ app.controller('devicesController', async ($scope, $http, devicesAPI, typesAPI) 
 	};
 
 	$scope.setValueDeviceByEvent = async (event) => {
+		const component = event.target;
 		const newValue = getValueComponentByEvent(event);
 		const device = getDeviceById(getDeviceByTagHTML(event));
 
+		component.disabled = true;
 		const newValues = { value: newValue, code: device.getCode() };
 		devicesAPI.saveDevice(device.getID(), newValues)
 			.then((itemDevice) => {
@@ -73,12 +75,14 @@ app.controller('devicesController', async ($scope, $http, devicesAPI, typesAPI) 
 				console.log('Response:', itemDevice.data.id ? itemDevice.data : 'Error');
 				device.value = newValue;
 				console.log('SetValue:', newValue);
+				component.disabled = false;
 			})
 			.catch((error) => {
 				device.value = device.getValue();
 				setValueComponentByEvent(event, device.value);
 				console.log('Error: ', error);
 				console.log('Returning value to ', device.value);
+				component.disabled = true;
 				// eslint-disable-next-line no-alert
 				alert('Nao foi possivel acionar o dispositivo!');
 			});
