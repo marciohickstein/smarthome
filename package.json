@@ -22,6 +22,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "morgan": "^1.10.0",
+    "node-dht-sensor": "^0.4.3",
     "rpi-433-v3": "^1.2.0"
   },
   "devDependencies": {

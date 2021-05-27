@@ -34,14 +34,11 @@
 
 	<div ng-app="smarthome" ng-controller="devicesController">
 		<div ng-show="listDevicesOK" class="container" style="min-height: 800px">
-			<div class="row bg" ng-repeat="device in devices">
-				<div class="col-1 text-center">
-					<img class="pt-3" src='{{device.type.getIconByValue(device.value)}}'></img>
+			<div class="row bg text-center" ng-repeat="device in devices">
+				<div class="col-2">
+					<img data-toggle="tooltip" title="{{device.type.description}}" class="pt-3" src='{{device.type.getIconByValue(device.value)}}'></img>
 				</div>
-				<div class="col-2 pt-4">
-					<p class="lead font-weight-bold text-truncate">{{device.type.description}}</p>
-				</div>
-				<div class="col-7 pt-4">
+				<div class="col-8 pt-4">
 					<p class="lead font-weight-bold text-truncate">{{device.description}}</p>
 				</div>
 				<div class="col-2 pt-4 text-center ">
@@ -53,12 +50,12 @@
 		<div ng-show="!listDevicesOK">
 			<h1 class="text-center">Ocorreu um erro ao buscar os dispositivos!</h1>
 		</div>
-
 	</div>
 
 </body>
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+<script src="./assets/js/utils.js"></script>
 <script src="./assets/js/classes/device.js"></script>
 <script src="./assets/js/classes/deviceType.js"></script>
 <script src="assets/js/devicesCtrl.js"></script>
