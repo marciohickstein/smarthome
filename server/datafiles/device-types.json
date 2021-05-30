@@ -1,0 +1,25 @@
+[
+	{
+			"id": 1, "description": "LIGHT", "template": "./templates/checkBox.htm", "rangeValues": [
+					{ "value": 0, "icon": "../assets/img/light-off.png" },
+					{ "value": 1, "icon": "../assets/img/light-on.png" }
+			]
+	},
+	{
+			"id": 2, "description": "DIMMER", "template": "./templates/rangeBox.htm", "rangeValues": [
+					{ "value": 0, "icon": "../assets/img/light-off.png" },
+					{ "value": "1:100" , "icon": "../assets/img/light-on.png" }
+			]
+	},
+	{
+			"id": 3, "description": "OUTLET", "template": "./templates/checkBox.htm", "rangeValues": [
+					{ "value": 0, "icon": "../assets/img/outlet-off.png" },
+					{ "value": 1 , "icon": "../assets/img/outlet-on.png" }
+			]
+	},
+	{
+			"id": 4, "description": "TEMPERATURE / HUMIDITY SENSOR", "template": "./templates/display.htm", "rangeValues": [
+					{ "icon": "../assets/img/temperature.png" }
+			]
+	}
+]

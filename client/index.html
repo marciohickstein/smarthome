@@ -28,39 +28,177 @@
 
 <body>
 
+	<!-- APPLICATION LOGO : START -->
 	<div class="container jumbotron">
 		<h1 class="display-4 text-center">Smart Home</h1>
 	</div>
+	<!-- APPLICATION LOGO : END -->
 
-	<div ng-app="smarthome" ng-controller="devicesController">
-		<div ng-show="listDevicesOK" class="container" style="min-height: 800px">
-			<div class="row bg text-center" ng-repeat="device in devices">
-				<div class="col-2">
-					<img data-toggle="tooltip" title="{{device.type.description}}" class="pt-3" src='{{device.type.getIconByValue(device.value)}}'></img>
+	<!-- APPLICATION AREA : START -->
+	<div class="container" ng-app="smarthome" ng-controller="devicesController">
+
+		<!-- TABLE OF DEVICES AND GROUPS : START -->
+		<div ng-show="listDevicesOK">
+
+			<nav>
+				<div class="nav nav-tabs" id="nav-tab" role="tablist">
+					<a href="#devices" id="devices-tab" class="nav-item nav-link active" data-toggle="tab" role="tab" aria-controls="devices" aria-selected="true">Dispositivos</a>
+					<a href="#group1" id="group1-tab" class="nav-item nav-link" data-toggle="tab" role="tab" aria-controls="group1" aria-selected="true">Grupo 1</a>
+					<a href="#group2" id="group2-tab" class="nav-item nav-link" data-toggle="tab" role="tab" aria-controls="group2" aria-selected="true">Grupo 2</a>
+					<a href="#group3" id="group3-tab" class="nav-item nav-link" data-toggle="tab" role="tab" aria-controls="group3" aria-selected="true">Grupo 3</a>
 				</div>
-				<div class="col-8 pt-4">
-					<p class="lead font-weight-bold text-truncate">{{device.description}}</p>
+			</nav>
+
+			<div class="tab-content" id="nav-tabContent">
+
+				<!-- TABLE OF DEVICES : START -->
+				<div class="tab-pane active" id="devices" role="tabpanel" aria-labelledby="devices-tab" >
+					<div class="container" id="tab1" role="tabpanel" aria-labelledby="tab1" style="min-height: 800px">
+						<div class="row bg text-center" ng-repeat="device in devices">
+							<div class="col-2">
+								<img data-toggle="tooltip" title="{{device.type.description}}" class="pt-3" src='{{device.type.getIconByValue(device.value)}}'></img>
+							</div>
+							<div class="col-8 pt-4">
+								<p class="lead font-weight-bold text-truncate">{{device.description}}</p>
+							</div>
+							<div class="col-2 pt-4 text-center ">
+								<div ng-include="device.type.template"></div>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div class="col-2 pt-4 text-center ">
-					<div ng-include="device.type.template"></div>
+				<!-- TABLE OF DEVICES : END -->
+
+				<!-- TABLE OF GROUP 1 : START -->
+				<div class="tab-pane" id="group1" role="tabpanel" aria-labelledby="group1-tab" >
+					<div class="container" id="tab1" role="tabpanel" aria-labelledby="tab1" style="min-height: 800px">
+
+						<!-- GROUP INFO : START -->
+						<div class="row text-center" >
+							<div class="col-2">
+								<img data-toggle="tooltip" title="{{group1.description}}" class="pt-3" src='./assets/img/group.png'></img>
+							</div>
+							<div class="col-8 pt-4">
+								<p class="lead font-weight-bold text-truncate">{{group1.description}}</p>
+							</div>
+							<div class="col-2 pt-4 text-center ">
+								<div class="custom-control custom-switch" id="btn-toggle">
+									<input type="checkbox" ng-checked="device.value"  ng-click="setValueDeviceByEvent($event)" class="custom-control-input" id="switch-{{device.id}}-{{device.getHash()}}">
+									<label class="custom-control-label" for="switch-{{device.id}}-{{device.getHash()}}"></label>
+								</div>
+							</div>
+						</div>
+						<!-- GROUP INFO : END -->
+		
+						<!-- GROUP DEVICES : START -->
+						<div class="row bg text-center" ng-repeat="device in devicesGroup1">
+							<div class="col-2">
+								<img data-toggle="tooltip" title="{{device.type.description}}" class="pt-3" src='{{device.type.getIconByValue(device.value)}}'></img>
+							</div>
+							<div class="col-8 pt-4">
+								<p class="lead font-weight-bold text-truncate">{{device.description}}</p>
+							</div>
+							<div class="col-2 pt-4 text-center ">
+								<div ng-include="device.type.template"></div>
+							</div>
+						</div>
+						<!-- GROUP DEVICES : END -->
+					</div>
+				</div>
+				<!-- TABLE OF GROUP 1 : END -->
+
+				<div class="tab-pane" id="group2" role="tabpanel" aria-labelledby="group2-tab" >
+					<div class="container" id="tab1" role="tabpanel" aria-labelledby="tab1" style="min-height: 800px">
+
+						<!-- GROUP INFO : START -->
+						<div class="row text-center" >
+							<div class="col-2">
+								<img data-toggle="tooltip" title="{{group2.description}}" class="pt-3" src='./assets/img/group.png'></img>
+							</div>
+							<div class="col-8 pt-4">
+								<p class="lead font-weight-bold text-truncate">{{group2.description}}</p>
+							</div>
+							<div class="col-2 pt-4 text-center ">
+								<div class="custom-control custom-switch" id="btn-toggle">
+									<input type="checkbox" ng-checked="device.value"  ng-click="setValueDeviceByEvent($event)" class="custom-control-input" id="switch-{{device.id}}-{{device.getHash()}}">
+									<label class="custom-control-label" for="switch-{{device.id}}-{{device.getHash()}}"></label>
+								</div>
+							</div>
+						</div>
+						<!-- GROUP INFO : END -->
+
+						<!-- GROUP DEVICES : START -->
+						<div class="row bg text-center" ng-repeat="device in devicesGroup2">
+							<div class="col-2">
+								<img data-toggle="tooltip" title="{{device.type.description}}" class="pt-3" src='{{device.type.getIconByValue(device.value)}}'></img>
+							</div>
+							<div class="col-8 pt-4">
+								<p class="lead font-weight-bold text-truncate">{{device.description}}</p>
+							</div>
+							<div class="col-2 pt-4 text-center ">
+								<div ng-include="device.type.template"></div>
+							</div>
+						</div>
+						<!-- GROUP DEVICES : END -->
+					</div>
+				</div>
+				<div class="tab-pane" id="group3" role="tabpanel" aria-labelledby="group3-tab" >
+					<div class="container" id="tab1" role="tabpanel" aria-labelledby="tab1" style="min-height: 800px">
+
+						<!-- GROUP INFO : START -->
+						<div class="row text-center" >
+							<div class="col-2">
+								<img data-toggle="tooltip" title="{{group3.description}}" class="pt-3" src='./assets/img/group.png'></img>
+							</div>
+							<div class="col-8 pt-4">
+								<p class="lead font-weight-bold text-truncate">{{group3.description}}</p>
+							</div>
+							<div class="col-2 pt-4 text-center ">
+								<div class="custom-control custom-switch" id="btn-toggle">
+									<input type="checkbox" ng-checked="device.value"  ng-click="setValueDeviceByEvent($event)" class="custom-control-input" id="switch-{{device.id}}-{{device.getHash()}}">
+									<label class="custom-control-label" for="switch-{{device.id}}-{{device.getHash()}}"></label>
+								</div>
+							</div>
+						</div>
+						<!-- GROUP INFO : END -->
+
+						<!-- GROUP DEVICES : START -->
+						<div class="row bg text-center" ng-repeat="device in devicesGroup3">
+							<div class="col-2">
+								<img data-toggle="tooltip" title="{{device.type.description}}" class="pt-3" src='{{device.type.getIconByValue(device.value)}}'></img>
+							</div>
+							<div class="col-8 pt-4">
+								<p class="lead font-weight-bold text-truncate">{{device.description}}</p>
+							</div>
+							<div class="col-2 pt-4 text-center ">
+								<div ng-include="device.type.template"></div>
+							</div>
+						</div>
+						<!-- GROUP DEVICES : END -->
+					</div>
 				</div>
 			</div>
-	
 		</div>
-		<div ng-show="!listDevicesOK">
+		<!-- TABLE OF DEVICES AND GROUPS : END -->
+
+		<!-- APPLICATION ERROR MESSAGE : START -->
+		<div ng-style="showErrorMessage" style="visibility: hidden;">
 			<h1 class="text-center">Ocorreu um erro ao buscar os dispositivos!</h1>
 		</div>
+		<!-- APPLICATION ERROR MESSAGE : END -->
 	</div>
-
+	<!-- APPLICATION AREA : END -->
 </body>
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
-<script src="./assets/js/utils.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"></script>
 <script src="./assets/js/classes/device.js"></script>
 <script src="./assets/js/classes/deviceType.js"></script>
 <script src="assets/js/devicesCtrl.js"></script>
 <script src="assets/js/typesAPIService.js"></script>
 <script src="assets/js/devicesAPIService.js"></script>
+<script src="assets/js/groupsAPIService.js"></script>
+<script src="./assets/js/utils.js"></script>
 <script>
 </script>
 

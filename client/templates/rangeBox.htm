@@ -1,4 +1,4 @@
 <div class="custom-control custom-range" id="btn-toggle">
-	<input type="range" value="{{device.value}}" min="0" max="100" ng-click="setValueDeviceByEvent($event)" class="custom-range" id="switch-{{device.id}}">
-	<label class="custom-range" for="switch-{{device.id}}"></label>
+	<input type="range" value="{{device.value}}" min="0" max="100" ng-click="setValueDeviceByEvent($event)" class="custom-range" id="switch-{{device.id}}-{{getHash()}}">
+	<label class="custom-range" for="switch-{{device.id}}-{{getHash()}}"></label>
 </div>

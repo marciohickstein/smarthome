@@ -1,4 +1,4 @@
 <div class="custom-control custom-switch" id="btn-toggle">
-	<input type="checkbox" ng-checked="device.value"  ng-click="setValueDeviceByEvent($event)" class="custom-control-input" id="switch-{{device.id}}">
-	<label class="custom-control-label" for="switch-{{device.id}}"></label>
+	<input type="checkbox" ng-checked="device.value"  ng-click="setValueDeviceByEvent($event)" class="custom-control-input" id="switch-{{device.id}}-{{device.getHash()}}">
+	<label class="custom-control-label" for="switch-{{device.id}}-{{device.getHash()}}"></label>
 </div>

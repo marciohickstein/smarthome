@@ -1,37 +1,103 @@
 /* eslint-disable no-undef */
 const app = angular.module('smarthome', []);
 
-app.controller('devicesController', async ($scope, $http, devicesAPI, typesAPI) => {
+app.controller('devicesController', async ($scope, $http, devicesAPI, typesAPI, groupsAPI) => {
+	groupsAPI.getGroups(1)
+		.then((group) => {
+			const [groupObject] = group.data;
+			const devGroup = groupObject.devices.map((device) => {
+				const { type } = device;
+				const deviceValues = Object.values(device);
+				const typeValues = Object.values(type);
+
+				const deviceAndType = new Device(...deviceValues);
+				const deviceType = new DeviceType(...typeValues);
+
+				deviceAndType.setType(deviceType);
+				return deviceAndType;
+			});
+			$scope.group1 = groupObject;
+			$scope.devicesGroup1 = devGroup;
+		})
+		.catch((error) => {
+			console.log(error);
+		});
+
+	groupsAPI.getGroups(2)
+		.then((group) => {
+			const [groupObject] = group.data;
+			const devGroup = groupObject.devices.map((device) => {
+				const { type } = device;
+				const deviceValues = Object.values(device);
+				const typeValues = Object.values(type);
+
+				const deviceAndType = new Device(...deviceValues);
+				const deviceType = new DeviceType(...typeValues);
+
+				deviceAndType.setType(deviceType);
+				return deviceAndType;
+			});
+			$scope.group2 = groupObject;
+			$scope.devicesGroup2 = devGroup;
+		})
+		.catch((error) => {
+			console.log(error);
+		});
+
+	groupsAPI.getGroups(3)
+		.then((group) => {
+			const [groupObject] = group.data;
+			const devGroup = groupObject.devices.map((device) => {
+				const { type } = device;
+				const deviceValues = Object.values(device);
+				const typeValues = Object.values(type);
+
+				const deviceAndType = new Device(...deviceValues);
+				const deviceType = new DeviceType(...typeValues);
+
+				deviceAndType.setType(deviceType);
+				return deviceAndType;
+			});
+			$scope.group3 = groupObject;
+			$scope.devicesGroup3 = devGroup;
+		})
+		.catch((error) => {
+			console.log(error);
+		});
+
 	devicesAPI.getDevices()
 		.then((devices) => {
-			typesAPI.getTypes()
-				.then((types) => {
-					const devs = devices.data.map((device) => {
-						const type = types.data.find((itemType) => itemType.id === device.type);
+			const devs = devices.data.map((device) => {
+				const { type } = device;
+				const deviceValues = Object.values(device);
+				const typeValues = Object.values(type);
 
-						const deviceValues = Object.values(device);
-						const typeValues = Object.values(type);
+				const deviceAndType = new Device(...deviceValues);
+				const deviceType = new DeviceType(...typeValues);
 
-						const deviceAndType = new Device(...deviceValues);
-						const deviceType = new DeviceType(...typeValues);
-
-						deviceAndType.setType(deviceType);
-						return deviceAndType;
-					});
-					$scope.devices = devs;
-					$scope.listDevicesOK = true;
-				})
-				.catch((error) => {
-					$scope.devices = [];
-					console.log('Error:', error);
-					$scope.listDevicesOK = false;
-				});
+				deviceAndType.setType(deviceType);
+				return deviceAndType;
+			});
+			$scope.devices = devs;
+			$scope.listDevicesOK = true;
+			$scope.showErrorMessage = {
+				visibility: 'hidden',
+			};
 		})
 		.catch((error) => {
 			$scope.devices = [];
 			console.log('Error:', error);
 			$scope.listDevicesOK = false;
+			$scope.showErrorMessage = {
+				visibility: 'visible',
+			};
 		});
+
+	$scope.page = 'devices';
+	$scope.getPage = () => $scope.page;
+	$scope.setPageComponent = (page) => {
+		$scope.page = page;
+	};
 
 	const getDeviceByTagHTML = (event) => Number(event.target.id.split('-')[1]);
 

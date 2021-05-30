@@ -7,8 +7,9 @@ const express = require('express');
 const cors = require('cors');
 
 const app = express();
-const routerDevices = require('./routes/devices');
-const routerTypes = require('./routes/types');
+const routerGroups = require('./server/route/groupsRoute');
+const routerDevices = require('./server/route/devicesRoute');
+const routerTypes = require('./server/route/typesRoute');
 
 // Middleware
 app.use(express.json());
@@ -17,6 +18,7 @@ app.use(morgan('combined'));
 // Routes
 app.use(cors());
 app.use('/', express.static('client/'));
+app.use('/groups', routerGroups);
 app.use('/devices', routerDevices);
 app.use('/types', routerTypes);
 

@@ -1,9 +1,9 @@
 // eslint-disable-next-line no-undef
-angular.module('smarthome').factory('devicesAPI', ($http) => {
-	const pathUrl = 'devices';
+angular.module('smarthome').factory('groupsAPI', ($http) => {
+	const pathUrl = 'groups';
 	const baseUrl = window.location.origin;
 
-	const _getDevices = (id) => {
+	const _getGroups = (id) => {
 		let url = '';
 
 		if (typeof id === 'number' || typeof id === 'string') {
@@ -11,14 +11,14 @@ angular.module('smarthome').factory('devicesAPI', ($http) => {
 		} else {
 			url = `${baseUrl}/${pathUrl}`;
 		}
-
+		console.log(url);
 		return $http.get(url);
 	};
 
-	const _saveDevice = (id, device) => $http.patch(`${baseUrl}/${pathUrl}/${id}`, device);
+	const _saveGroup = (id, device) => $http.patch(`${baseUrl}/${pathUrl}/${id}`, device);
 
 	return {
-		getDevices: _getDevices,
-		saveDevice: _saveDevice,
+		getGroups: _getGroups,
+		saveGroup: _saveGroup,
 	};
 });

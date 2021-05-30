@@ -1,0 +1,1 @@
+[{"id":2,"type":2,"description":"bedroom light","value":"40"},{"id":1,"type":1,"description":"office light","value":true,"code":"12345678"},{"id":3,"type":1,"description":"Bathroom light","value":false},{"id":4,"type":1,"description":"toaster outlet","value":true},{"id":5,"type":4,"description":"temperature frezzer","value":"18.0C\n74.0%"}]

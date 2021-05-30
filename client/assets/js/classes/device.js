@@ -6,10 +6,16 @@ class Device {
 		this.description = description;
 		this.value = value;
 		this.code = code;
+		// eslint-disable-next-line no-undef
+		this.hash = uuidv4();
 	}
 
 	getID() {
 		return this.id;
+	}
+
+	getHash() {
+		return this.hash;
 	}
 
 	getType() {

@@ -61,7 +61,6 @@ class JSONDataSource extends IDataSource {
 		if (!Array.isArray(filters)) {
 			return selectedItems;
 		}
-
 		selectedItems = selectedItems.filter((item) => {
 			let matched = true;
 
@@ -70,7 +69,8 @@ class JSONDataSource extends IDataSource {
 				const keyToTest = filters[index][0];
 				const valToTest = filters[index][1];
 
-				if (item[keyToTest] !== valToTest) {
+				// eslint-disable-next-line eqeqeq
+				if (item[keyToTest] != valToTest) {
 					matched = false;
 					break;
 				}

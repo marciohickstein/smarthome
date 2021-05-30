@@ -26,7 +26,17 @@ class DeviceType {
 	getIconByValue(value) {
 		let icon = '';
 
-		if (!Array.isArray(this.rangeValues)) return '';
+		if (!Array.isArray(this.rangeValues)) {
+			return '';
+		}
+
+		if (this.rangeValues.length === 0) {
+			return '';
+		}
+
+		if (this.rangeValues.length === 1) {
+			return this.rangeValues[0].icon;
+		}
 
 		let isValidValue = false;
 
