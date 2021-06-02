@@ -2,96 +2,75 @@
 const app = angular.module('smarthome', []);
 
 app.controller('devicesController', async ($scope, $http, devicesAPI, typesAPI, groupsAPI) => {
-	groupsAPI.getGroups(1)
-		.then((group) => {
-			const [groupObject] = group.data;
-			const devGroup = groupObject.devices.map((device) => {
-				const { type } = device;
-				const deviceValues = Object.values(device);
-				const typeValues = Object.values(type);
+	$scope.group = [];
+	$scope.devicesGroup = [];
 
-				const deviceAndType = new Device(...deviceValues);
-				const deviceType = new DeviceType(...typeValues);
+	$scope.loadDevices = () => {
+		devicesAPI.getDevices()
+			.then((devices) => {
+				const devs = devices.data.map((device) => {
+					const { type } = device;
+					const deviceValues = Object.values(device);
+					const typeValues = Object.values(type);
 
-				deviceAndType.setType(deviceType);
-				return deviceAndType;
+					const deviceAndType = new Device(...deviceValues);
+					const deviceType = new DeviceType(...typeValues);
+
+					deviceAndType.setType(deviceType);
+					return deviceAndType;
+				});
+				$scope.devices = devs;
+				$scope.listDevicesOK = true;
+				$scope.showErrorMessage = {
+					visibility: 'hidden',
+				};
+			})
+			.catch((error) => {
+				$scope.devices = [];
+				console.log('Error:', error);
+				$scope.listDevicesOK = false;
+				$scope.showErrorMessage = {
+					visibility: 'visible',
+				};
 			});
-			$scope.group1 = groupObject;
-			$scope.devicesGroup1 = devGroup;
-		})
-		.catch((error) => {
-			console.log(error);
-		});
+	};
 
-	groupsAPI.getGroups(2)
-		.then((group) => {
-			const [groupObject] = group.data;
-			const devGroup = groupObject.devices.map((device) => {
-				const { type } = device;
-				const deviceValues = Object.values(device);
-				const typeValues = Object.values(type);
+	$scope.loadGroup = (groupId) => {
+		groupsAPI.getGroups(groupId)
+			.then((group) => {
+				const [groupObject] = group.data;
+				const devGroup = groupObject.devices.map((device) => {
+					const { type } = device;
+					const deviceValues = Object.values(device);
+					const typeValues = Object.values(type);
 
-				const deviceAndType = new Device(...deviceValues);
-				const deviceType = new DeviceType(...typeValues);
+					const deviceAndType = new Device(...deviceValues);
+					const deviceType = new DeviceType(...typeValues);
 
-				deviceAndType.setType(deviceType);
-				return deviceAndType;
+					deviceAndType.setType(deviceType);
+					return deviceAndType;
+				});
+				$scope.group[groupId] = groupObject;
+				$scope.devicesGroup[groupId] = devGroup;
+			})
+			.catch((error) => {
+				console.log(error);
 			});
-			$scope.group2 = groupObject;
-			$scope.devicesGroup2 = devGroup;
-		})
-		.catch((error) => {
-			console.log(error);
-		});
+	};
 
-	groupsAPI.getGroups(3)
-		.then((group) => {
-			const [groupObject] = group.data;
-			const devGroup = groupObject.devices.map((device) => {
-				const { type } = device;
-				const deviceValues = Object.values(device);
-				const typeValues = Object.values(type);
+	$scope.loadTab = (event) => {
+		const tab = event.target.id.split('-')[0];
 
-				const deviceAndType = new Device(...deviceValues);
-				const deviceType = new DeviceType(...typeValues);
+		if (tab.slice(0, 5) === 'group') {
+			const groupId = tab[5];
+			$scope.loadGroup(groupId);
+			return;
+		}
 
-				deviceAndType.setType(deviceType);
-				return deviceAndType;
-			});
-			$scope.group3 = groupObject;
-			$scope.devicesGroup3 = devGroup;
-		})
-		.catch((error) => {
-			console.log(error);
-		});
+		$scope.loadDevices();
+	};
 
-	devicesAPI.getDevices()
-		.then((devices) => {
-			const devs = devices.data.map((device) => {
-				const { type } = device;
-				const deviceValues = Object.values(device);
-				const typeValues = Object.values(type);
-
-				const deviceAndType = new Device(...deviceValues);
-				const deviceType = new DeviceType(...typeValues);
-
-				deviceAndType.setType(deviceType);
-				return deviceAndType;
-			});
-			$scope.devices = devs;
-			$scope.listDevicesOK = true;
-			$scope.showErrorMessage = {
-				visibility: 'hidden',
-			};
-		})
-		.catch((error) => {
-			$scope.devices = [];
-			console.log('Error:', error);
-			$scope.listDevicesOK = false;
-			$scope.showErrorMessage = {
-				visibility: 'visible',
-			};
-		});
+	$scope.loadDevices();
 
 	$scope.page = 'devices';
 	$scope.getPage = () => $scope.page;

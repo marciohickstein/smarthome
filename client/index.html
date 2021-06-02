@@ -42,10 +42,10 @@
 
 			<nav>
 				<div class="nav nav-tabs" id="nav-tab" role="tablist">
-					<a href="#devices" id="devices-tab" class="nav-item nav-link active" data-toggle="tab" role="tab" aria-controls="devices" aria-selected="true">Dispositivos</a>
-					<a href="#group1" id="group1-tab" class="nav-item nav-link" data-toggle="tab" role="tab" aria-controls="group1" aria-selected="true">Grupo 1</a>
-					<a href="#group2" id="group2-tab" class="nav-item nav-link" data-toggle="tab" role="tab" aria-controls="group2" aria-selected="true">Grupo 2</a>
-					<a href="#group3" id="group3-tab" class="nav-item nav-link" data-toggle="tab" role="tab" aria-controls="group3" aria-selected="true">Grupo 3</a>
+					<a ng-click="loadTab($event)" href="#devices" id="devices-tab" class="nav-item nav-link active" data-toggle="tab" role="tab" aria-controls="devices" aria-selected="true">Dispositivos</a>
+					<a ng-click="loadTab($event)" href="#group1" id="group1-tab" class="nav-item nav-link" data-toggle="tab" role="tab" aria-controls="group1" aria-selected="true">Grupo 1</a>
+					<a ng-click="loadTab($event)" href="#group2" id="group2-tab" class="nav-item nav-link" data-toggle="tab" role="tab" aria-controls="group2" aria-selected="true">Grupo 2</a>
+					<a ng-click="loadTab($event)" href="#group3" id="group3-tab" class="nav-item nav-link" data-toggle="tab" role="tab" aria-controls="group3" aria-selected="true">Grupo 3</a>
 				</div>
 			</nav>
 
@@ -76,10 +76,10 @@
 						<!-- GROUP INFO : START -->
 						<div class="row text-center" >
 							<div class="col-2">
-								<img data-toggle="tooltip" title="{{group1.description}}" class="pt-3" src='./assets/img/group.png'></img>
+								<img data-toggle="tooltip" title="{{group[1].description}}" class="pt-3" src='./assets/img/group.png'></img>
 							</div>
 							<div class="col-8 pt-4">
-								<p class="lead font-weight-bold text-truncate">{{group1.description}}</p>
+								<p class="lead font-weight-bold text-truncate">{{group[1].description}}</p>
 							</div>
 							<div class="col-2 pt-4 text-center ">
 								<div class="custom-control custom-switch" id="btn-toggle">
@@ -91,7 +91,7 @@
 						<!-- GROUP INFO : END -->
 		
 						<!-- GROUP DEVICES : START -->
-						<div class="row bg text-center" ng-repeat="device in devicesGroup1">
+						<div class="row bg text-center" ng-repeat="device in devicesGroup[1]">
 							<div class="col-2">
 								<img data-toggle="tooltip" title="{{device.type.description}}" class="pt-3" src='{{device.type.getIconByValue(device.value)}}'></img>
 							</div>
@@ -107,16 +107,17 @@
 				</div>
 				<!-- TABLE OF GROUP 1 : END -->
 
+				<!-- TABLE OF GROUP 2 : START -->
 				<div class="tab-pane" id="group2" role="tabpanel" aria-labelledby="group2-tab" >
 					<div class="container" id="tab1" role="tabpanel" aria-labelledby="tab1" style="min-height: 800px">
 
 						<!-- GROUP INFO : START -->
 						<div class="row text-center" >
 							<div class="col-2">
-								<img data-toggle="tooltip" title="{{group2.description}}" class="pt-3" src='./assets/img/group.png'></img>
+								<img data-toggle="tooltip" title="{{group[2].description}}" class="pt-3" src='./assets/img/group.png'></img>
 							</div>
 							<div class="col-8 pt-4">
-								<p class="lead font-weight-bold text-truncate">{{group2.description}}</p>
+								<p class="lead font-weight-bold text-truncate">{{group[2].description}}</p>
 							</div>
 							<div class="col-2 pt-4 text-center ">
 								<div class="custom-control custom-switch" id="btn-toggle">
@@ -128,7 +129,7 @@
 						<!-- GROUP INFO : END -->
 
 						<!-- GROUP DEVICES : START -->
-						<div class="row bg text-center" ng-repeat="device in devicesGroup2">
+						<div class="row bg text-center" ng-repeat="device in devicesGroup[2]">
 							<div class="col-2">
 								<img data-toggle="tooltip" title="{{device.type.description}}" class="pt-3" src='{{device.type.getIconByValue(device.value)}}'></img>
 							</div>
@@ -142,16 +143,19 @@
 						<!-- GROUP DEVICES : END -->
 					</div>
 				</div>
+				<!-- TABLE OF GROUP 1 : END -->
+
+				<!-- TABLE OF GROUP 3 : START -->
 				<div class="tab-pane" id="group3" role="tabpanel" aria-labelledby="group3-tab" >
 					<div class="container" id="tab1" role="tabpanel" aria-labelledby="tab1" style="min-height: 800px">
 
 						<!-- GROUP INFO : START -->
 						<div class="row text-center" >
 							<div class="col-2">
-								<img data-toggle="tooltip" title="{{group3.description}}" class="pt-3" src='./assets/img/group.png'></img>
+								<img data-toggle="tooltip" title="{{group[3].description}}" class="pt-3" src='./assets/img/group.png'></img>
 							</div>
 							<div class="col-8 pt-4">
-								<p class="lead font-weight-bold text-truncate">{{group3.description}}</p>
+								<p class="lead font-weight-bold text-truncate">{{group[3].description}}</p>
 							</div>
 							<div class="col-2 pt-4 text-center ">
 								<div class="custom-control custom-switch" id="btn-toggle">
@@ -163,7 +167,7 @@
 						<!-- GROUP INFO : END -->
 
 						<!-- GROUP DEVICES : START -->
-						<div class="row bg text-center" ng-repeat="device in devicesGroup3">
+						<div class="row bg text-center" ng-repeat="device in devicesGroup[3]">
 							<div class="col-2">
 								<img data-toggle="tooltip" title="{{device.type.description}}" class="pt-3" src='{{device.type.getIconByValue(device.value)}}'></img>
 							</div>
