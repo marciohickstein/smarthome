@@ -1,64 +1,41 @@
-const DEFAULT_PIN = 17;
-const DEFAULT_PULSELENGTH = 350;
-const DEFAULT_PROTOCOL = 1;
-const TYPE_DHT_SENSOR = 4;
-
-const rpi433 = require('rpi-433-v3');
-const sensor = require('node-dht-sensor').promises;
-
+const Device = require('../classes/device');
+const DeviceType = require('../classes/deviceType');
 const devicesData = require('../data/devicesData');
 const typesData = require('../data/typesData');
 
-const rfEmitter = rpi433.emitter({
-	pin: DEFAULT_PIN,
-	pulseLength: DEFAULT_PULSELENGTH,
-	protocol: DEFAULT_PROTOCOL,
-});
+const getDeviceByJSON = (deviceJSON) => {
+	const { type } = deviceJSON;
+	const deviceValues = Object.values(deviceJSON);
+	const typeValues = Object.values(type);
 
-sensor.initialize({
-	test: {
-		fake: {
-			temperature: 18,
-			humidity: 74,
-		},
-	},
-});
+	const deviceAndType = new Device(...deviceValues);
+	const deviceType = new DeviceType(...typeValues);
 
-const getType = (device) => {
-	if (typeof device.type === 'number') {
-		return device.type;
-	}
-
-	if (typeof device.type === 'object' && device.type.id !== 'undefined') {
-		return device.type.id;
-	}
-
-	return null;
+	deviceAndType.setType(deviceType);
+	return deviceAndType;
 };
 
 const checkSensors = async (devices) => {
 	for (let index = 0; index < devices.length; index += 1) {
 		const device = devices[index];
 
-		if (getType(device) === TYPE_DHT_SENSOR) {
-			try {
-				// eslint-disable-next-line no-await-in-loop
-				const res = await sensor.read(22, 4);
-				device.value = `${res.temperature.toFixed(1)}C\n${res.humidity.toFixed(1)}%`;
-				// eslint-disable-next-line no-await-in-loop
-				await devicesData.updateDevices(device.id, { value: device.value });
-				// eslint-disable-next-line no-param-reassign
-				console.log(device.value);
-			} catch (err) {
-				console.error('Failed to read sensor data:', err);
-			}
+		try {
+			const dev = getDeviceByJSON(device);
+			// eslint-disable-next-line no-await-in-loop
+			device.value = await dev.getValue();
+			// eslint-disable-next-line no-await-in-loop
+			await devicesData.updateDevices(device.id, { value: device.value });
+			// eslint-disable-next-line no-param-reassign
+			// console.log(device.value);
+		} catch (err) {
+			console.error('Failed to read sensor data:', err);
 		}
 	}
 
 	return devices;
 };
 
-exports.getDevices = async (id) => {
+exports.getDevicesJSON = async (id) => {
 	const devices = await devicesData.getDevices(id);
 
 	for (let index = 0; index < devices.length; index += 1) {
@@ -73,6 +50,22 @@ exports.getDevices = async (id) => {
 	return devicesChanged;
 };
 
-exports.updateDevices = (id, valuesToChange) => devicesData.updateDevices(id, valuesToChange);
+exports.getDevices = async (id) => {
+	const devicesJSON = await this.getDevicesJSON(id);
 
-exports.sendRfCode = (code) => rfEmitter.sendCode(code);
+	const listDevices = devicesJSON.map((device) => {
+		const { type } = device;
+		const deviceValues = Object.values(device);
+		const typeValues = Object.values(type);
+
+		const deviceAndType = new Device(...deviceValues);
+		const deviceType = new DeviceType(...typeValues);
+
+		deviceAndType.setType(deviceType);
+		return deviceAndType;
+	});
+
+	return listDevices;
+};
+
+exports.updateDevices = (id, valuesToChange) => devicesData.updateDevices(id, valuesToChange);

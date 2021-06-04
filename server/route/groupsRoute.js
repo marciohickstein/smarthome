@@ -20,7 +20,7 @@ router.patch('/:id', async (req, res) => {
 	try {
 		groupChanged = await groupsService.updateGroups(id, fieldsToChange);
 	} catch (error) {
-		// console.log('error:', error);
+		console.log('error:', error);
 		groupChanged = {};
 	}
 
