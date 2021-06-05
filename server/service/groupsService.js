@@ -18,12 +18,10 @@ exports.getGroups = async (id) => {
 
 	for (let i = 0; i < groups.length; i += 1) {
 		for (let y = 0; y < groups[i].devices.length; y += 1) {
+			const devId = groups[i].devices[y];
 			// eslint-disable-next-line no-await-in-loop
-			const device = await getDevice(groups[i].devices[y]);
+			const [device] = await devicesService.getDevices(devId);
 			if (device) {
-				// eslint-disable-next-line no-await-in-loop
-				const type = await getType(device.type);
-				device.type = type;
 				groups[i].devices[y] = device;
 			}
 		}
@@ -36,13 +34,10 @@ exports.getGroups = async (id) => {
 exports.updateGroups = async (id, valuesToChange) => {
 	const [group] = await groupsData.getGroups(id);
 
-	console.log(group.devices);
 	for (let y = 0; y < group.devices.length; y += 1) {
+		const devId = group.devices[y];
 		// eslint-disable-next-line no-await-in-loop
-console.log(group.devices[y]);
-		const devId = group.devices[y].id;
 		const [device] = await devicesService.getDevices(devId);
-console.log(device);
 		try {
 			// eslint-disable-next-line no-await-in-loop
 			await device.setValue(valuesToChange.value);
@@ -57,4 +52,3 @@ console.log(device);
 	return groupsData.updateGroups(id, valuesToChange);
 };
 
-// exports.updateGroups = (id, valuesToChange) => groupsData.updateGroups(id, valuesToChange);

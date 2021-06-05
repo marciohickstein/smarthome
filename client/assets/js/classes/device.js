@@ -1,5 +1,3 @@
-const IS_NODE = (typeof window === 'undefined');
-
 // eslint-disable-next-line no-unused-vars
 class Device {
 	constructor(id, type, description, value, code) {
@@ -9,10 +7,7 @@ class Device {
 		this.value = value;
 		this.code = code;
 		// eslint-disable-next-line no-undef
-		if (!IS_NODE) {
-			// eslint-disable-next-line no-undef
-			this.hash = uuidv4();
-		}
+		this.hash = uuidv4();
 	}
 
 	getID() {
@@ -39,7 +34,7 @@ class Device {
 		return this.value;
 	}
 
-	setValue(value, sendCommand2Device) {
+	setValue(value) {
 		this.value = value;
 	}
 
@@ -47,5 +42,3 @@ class Device {
 		return this.code;
 	}
 }
-
-module.exports = Device;

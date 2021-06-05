@@ -69,5 +69,3 @@ class DeviceType {
 		return icon;
 	}
 }
-
-module.exports = DeviceType;

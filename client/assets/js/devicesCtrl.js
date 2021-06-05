@@ -78,10 +78,6 @@ app.controller('devicesController', async ($scope, $http, devicesAPI, typesAPI, 
 		$scope.page = page;
 	};
 
-	const getDeviceByTagHTML = (event) => Number(event.target.id.split('-')[1]);
-
-	const getDeviceById = (deviceId) => $scope.devices.find((item) => item.id === deviceId);
-
 	const getValueComponentByEvent = (event) => {
 		let value;
 		const component = event.target;
@@ -105,10 +101,9 @@ app.controller('devicesController', async ($scope, $http, devicesAPI, typesAPI, 
 		}
 	};
 
-	$scope.setValueDeviceByEvent = async (event) => {
+	$scope.setValueDeviceByEvent = (event, device) => {
 		const component = event.target;
 		const newValue = getValueComponentByEvent(event);
-		const device = getDeviceById(getDeviceByTagHTML(event));
 
 		component.disabled = true;
 		const newValues = { value: newValue, code: device.getCode() };
@@ -118,11 +113,13 @@ app.controller('devicesController', async ($scope, $http, devicesAPI, typesAPI, 
 					throw new Error('Cant execute command');
 				}
 				console.log('Response:', itemDevice.data.id ? itemDevice.data : 'Error');
+				// eslint-disable-next-line no-param-reassign
 				device.value = newValue;
 				console.log('SetValue:', newValue);
 				component.disabled = false;
 			})
 			.catch((error) => {
+				// eslint-disable-next-line no-param-reassign
 				device.value = device.getValue();
 				setValueComponentByEvent(event, device.value);
 				console.log('Error: ', error);
@@ -132,4 +129,34 @@ app.controller('devicesController', async ($scope, $http, devicesAPI, typesAPI, 
 				alert('Nao foi possivel acionar o dispositivo!');
 			});
 	};
+
+	$scope.setValueGroupByEvent = (event, group) => {
+		const component = event.target;
+		const newValue = getValueComponentByEvent(event);
+
+		component.disabled = true;
+		const newValues = { value: newValue };
+		groupsAPI.saveGroup(group.id, newValues)
+			.then((itemGroup) => {
+				if (!itemGroup.data.id) {
+					throw new Error('Cant execute command');
+				}
+				console.log('Response:', itemGroup.data.id ? itemGroup.data : 'Error');
+				// eslint-disable-next-line no-param-reassign
+				group.value = newValue;
+				console.log('Group - SetValue:', newValue);
+				component.disabled = false;
+				$scope.loadGroup(group.id);
+			})
+			.catch((error) => {
+				// eslint-disable-next-line no-param-reassign
+				group.value = group.getValue();
+				setValueComponentByEvent(event, group.value);
+				console.log('Error: ', error);
+				console.log('Groupd - Returning value to ', group.value);
+				component.disabled = true;
+				// eslint-disable-next-line no-alert
+				alert('Nao foi possivel acionar o grupo de dispositivos!');
+			});
+	}
 });
