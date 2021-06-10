@@ -106,7 +106,7 @@ app.controller('devicesController', async ($scope, $http, devicesAPI, typesAPI, 
 		const newValue = getValueComponentByEvent(event);
 
 		component.disabled = true;
-		const newValues = { value: newValue, code: device.getCode() };
+		const newValues = { value: newValue };
 		devicesAPI.saveDevice(device.getID(), newValues)
 			.then((itemDevice) => {
 				if (!itemDevice.data.id) {
