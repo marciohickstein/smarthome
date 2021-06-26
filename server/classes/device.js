@@ -23,7 +23,7 @@ async function sendRfCode(code) {
 		return rfEmitter.sendCode(code);
 	}
 
-	console.log('Using python...')
+	console.log('Using python...');
 	const cmd = `/home/pi/rf-modules/rpi-rf/rpi-rf_send -r 7 ${code}`;
 	const { stdout, stderr } = await exec(cmd);
 
