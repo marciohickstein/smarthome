@@ -16,7 +16,7 @@ const routerTypes = require('./server/route/typesRoute');
 // Middleware
 app.use(express.json());
 app.use(morgan('combined'));
-app.use(helmet());
+// app.use(helmet());
 app.use(compression());
 app.use(cors());
 
