@@ -5,8 +5,13 @@ const dataSource = new ContextDataSource(new JSONDataSource());
 dataSource.open('../../datafiles/devices.json');
 
 exports.getDevices = async (id) => {
-	const isById = (id);
-	return await isById ? dataSource.selectById(id) : dataSource.select({});
+	try {
+		const isById = (id);
+		const result = isById ? await dataSource.selectById(id) : await dataSource.select({});
+		return result;
+	} catch (error) {
+		throw new Error(error);
+	}
 };
 
 exports.saveDevices = () => {

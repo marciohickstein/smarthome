@@ -1,6 +1,19 @@
 /* eslint-disable no-undef */
 const app = angular.module('smarthome', []);
 
+app.config(['$httpProvider', ($httpProvider) => {
+	// eslint-disable-next-line no-param-reassign
+	$httpProvider.defaults.headers.patch = {
+		'Content-Type': 'application/json;charset=utf-8',
+		'x-access-token': sessionStorage.getItem('token'),
+	};
+	// eslint-disable-next-line no-param-reassign
+	$httpProvider.defaults.headers.get = {
+		'Content-Type': 'application/json;charset=utf-8',
+		'x-access-token': sessionStorage.getItem('token'),
+	};
+}]);
+
 app.controller('devicesController', async ($scope, $http, devicesAPI, typesAPI, groupsAPI) => {
 	$scope.group = [];
 	$scope.devicesGroup = [];
@@ -28,6 +41,10 @@ app.controller('devicesController', async ($scope, $http, devicesAPI, typesAPI, 
 			.catch((error) => {
 				$scope.devices = [];
 				console.log('Error:', error);
+				if (error.status === 401) {
+					window.location.replace(`${window.location.origin}/client/login.html`);
+					return;
+				}
 				$scope.listDevicesOK = false;
 				$scope.showErrorMessage = {
 					visibility: 'visible',

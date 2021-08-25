@@ -51,7 +51,13 @@ class JSONDataSource extends IDataSource {
 	}
 
 	async select(filter) {
-		let selectedItems = await this.readFile();
+		let selectedItems;
+
+		try {
+			selectedItems = await this.readFile();
+		} catch (error) {
+			throw new Error(error);
+		}
 
 		if (!isPlainObject(filter)) {
 			return selectedItems;

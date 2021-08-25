@@ -2,13 +2,21 @@ const router = require('express').Router();
 const devicesService = require('../service/devicesService');
 
 router.get('/', async (req, res) => {
-	const devices = await devicesService.getDevicesJSON();
-	return res.status(200).json(devices);
+	try {
+		const devices = await devicesService.getDevicesJSON();
+		return res.status(200).json(devices);
+	} catch (error) {
+		return res.status(500).json({ error: true, message: 'Error no servidor' });
+	}
 });
 
 router.get('/:id', async (req, res) => {
-	const devices = await devicesService.getDevicesJSON(req.params.id);
-	return res.status(200).json(devices);
+	try {
+		const devices = await devicesService.getDevicesJSON(req.params.id);
+		return res.status(200).json(devices);
+	} catch (error) {
+		return res.status(500).json({ error: true, message: 'Error no servidor' });
+	}
 });
 
 router.patch('/:id', async (req, res) => {
